@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import About from "./Pages/About/About";
 import AddService from "./Pages/AddService/AddService";
+import DeleteService from "./Pages/DeleteService/DeleteService";
 import Checkout from "./Pages/Checkout/Checkout/Checkout";
 import Home from "./Pages/Home/Home/Home";
 import Login from "./Pages/Login/Login/Login";
@@ -39,6 +40,14 @@ function App() {
           element={
             <RequireAuth>
               <AddService></AddService>
+            </RequireAuth>
+          }
+        ></Route>
+        <Route
+          path="/deleteService"
+          element={
+            <RequireAuth>
+              <DeleteService></DeleteService>
             </RequireAuth>
           }
         ></Route>
