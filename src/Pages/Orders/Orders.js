@@ -3,6 +3,7 @@ import { signOut } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import axiosPrivet from "../../api/axiosPrivet";
 import auth from "../../firebase.init";
 const Orders = () => {
   const [user] = useAuthState(auth);
@@ -13,11 +14,7 @@ const Orders = () => {
       try {
         const email = user?.email;
         const url = `http://localhost:5000/orders?email=${email}`;
-        const { data } = await axios.get(url, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
+        const { data } = await axiosPrivet.get(url);
         setOrders(data);
       } catch (error) {
         if (error.response.status === 401 || error.response.status === 403) {
