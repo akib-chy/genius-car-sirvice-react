@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import useServices from "../../../Hooks/useServices";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Checkout = () => {
   const { serviceId } = useParams();
@@ -14,15 +17,24 @@ const Checkout = () => {
   //   phone: "01554101441",
   //   address: "fatickchari, chittagong",
   // });
+  const serviceName = services?.name || "";
   const handleOrderSubmit = (e) => {
     e.preventDefault();
     const order = {
-      name: user.displayName,
-      email: user.email,
-      service: serviceId.name,
+      name: user?.displayName,
+      email: user?.email,
+      services: serviceId?.name,
       phone: e.target.phone.value,
       address: e.target.address.value,
     };
+    axios.post("http://localhost:5000/order", order).then((response) => {
+      const { data } = response;
+      if (data.insertedId) {
+        toast.success("Order SuccessFull");
+        e.target.reset();
+      }
+      console.log(response);
+    });
     // const name = e.target.name.value;
     // const email = e.target.email.value;
     // const service = e.target.service.value;
@@ -31,6 +43,7 @@ const Checkout = () => {
     // const user = { name, email, service, phone, address };
     // console.log(user);
   };
+
   // const { address, ...rest } = user;
   // const newAddress = e.target.value;
   // const newUser = { address: newAddress, ...rest };
@@ -42,33 +55,15 @@ const Checkout = () => {
       <Form onSubmit={handleOrderSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Name</Form.Label>
-          <Form.Control
-            value={user.displayName}
-            required
-            name="name"
-            type="text"
-            disabled
-          />
+          <Form.Control value={user?.displayName} required disabled />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control
-            required
-            name="email"
-            type="email"
-            disabled
-            value={user.email}
-          />
+          <Form.Control required disabled value={user?.email} />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Service</Form.Label>
-          <Form.Control
-            required
-            disabled
-            value={services.name}
-            type="text"
-            placeholder="Enter email"
-          />
+          <Form.Control required disabled value={serviceName} />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Phone Number</Form.Label>
@@ -77,6 +72,7 @@ const Checkout = () => {
             name="phone"
             type="tel"
             placeholder="Phone Number"
+            autoComplete="off"
           />
         </Form.Group>
 
