@@ -23,18 +23,20 @@ const Checkout = () => {
     const order = {
       name: user?.displayName,
       email: user?.email,
-      services: serviceId?.name,
+      service: serviceName,
       phone: e.target.phone.value,
       address: e.target.address.value,
     };
-    axios.post("http://localhost:5000/order", order).then((response) => {
-      const { data } = response;
-      if (data.insertedId) {
-        toast.success("Order SuccessFull");
-        e.target.reset();
-      }
-      console.log(response);
-    });
+    axios
+      .post("https://tranquil-chamber-61296.herokuapp.com/order", order)
+      .then((response) => {
+        const { data } = response;
+        if (data.insertedId) {
+          toast.success("Order SuccessFull");
+          e.target.reset();
+        }
+        console.log(response);
+      });
     // const name = e.target.name.value;
     // const email = e.target.email.value;
     // const service = e.target.service.value;

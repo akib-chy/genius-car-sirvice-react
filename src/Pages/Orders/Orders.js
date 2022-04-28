@@ -13,7 +13,7 @@ const Orders = () => {
     const getOrder = async () => {
       try {
         const email = user?.email;
-        const url = `http://localhost:5000/orders?email=${email}`;
+        const url = `https://tranquil-chamber-61296.herokuapp.com/orders?email=${email}`;
         const { data } = await axiosPrivet.get(url);
         setOrders(data);
       } catch (error) {
@@ -26,8 +26,17 @@ const Orders = () => {
     getOrder();
   }, [user]);
   return (
-    <div>
-      <h1>This Is Order: {orders.length}</h1>
+    <div className="w-50 mx-auto my-5">
+      <h1 className="text-center bg-primary text-warning py-2">
+        This Is Order: {orders.length}
+      </h1>
+      {orders.map((order) => (
+        <div key={order._id}>
+          <h2>
+            {order.email} {order.service}
+          </h2>
+        </div>
+      ))}
     </div>
   );
 };
