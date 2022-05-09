@@ -1,7 +1,5 @@
 {
   "projects": {
-    "default": "combo-immigration",
-    "y": "combo-immigration"
-  },
-  "targets": {}
+    "default": "genius-car-service-ba7ae"
+  }
 }
